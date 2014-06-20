@@ -1,0 +1,13 @@
+if SH_ST_HDKH225
+
+menu "H225-HDK STx7141 HDK reference board options"
+
+config SH_ST_H2257141_STMMAC0
+	bool "Enable STMMAC 0"
+	default n
+	help
+	  Enable STMMAC 0
+
+endmenu
+
+endif

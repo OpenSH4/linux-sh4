@@ -1,0 +1,43 @@
+MODULE_OBJECT = vfd
+ifeq ($(KDIR),)
+#KDIR=/home/d27lwj/kernel/linux-a27
+KDIR=/home/d27lwj/kernel/linux_stm24_205_V2.1
+endif
+INSTALL_MOD_PATH=/home/d27lwj/workspace/box
+#include ../kernel.make
+export ARCH=sh
+export CROSS_COMPILE=sh4-linux-
+
+#CFLAGS = -O0 -g -fno-common
+
+obj-m := $(MODULE_OBJECT).o
+
+$(MODULE_OBJECT)-objs :=  vfd_core.o trace.o ywi2c_soft.o panel.o
+
+PWD := $(shell pwd)
+
+ifneq (,$(findstring 2.6.3,$(KERNELVERSION)))
+EXTRA_CFLAGS += -I$(PWD)
+else
+CFLAGS += -I$(PWD)
+endif
+
+
+ifneq ($(KERNELRELEASE),)
+
+else
+
+all default:
+	echo $(CFLAGS)
+	echo $(EXTRA_CFLAGS)
+	$(MAKE) -C $(KDIR) M=$(PWD)  modules
+
+install:
+	@echo Copy $(MODULE_OBJECT) driver to $(INSTALL_MOD_PATH)
+	@cp $(MODULE_OBJECT).ko $(INSTALL_MOD_PATH)/vfd.ko
+
+clean:
+	echo $(CURDIR)
+	$(RM)  $(obj-m) $(MODULE_OBJECT).ko Module.symvers
+	$(MAKE) -C $(KDIR) M=$(PWD) clean
+endif

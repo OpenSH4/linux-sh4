@@ -1,0 +1,33 @@
+
+MODULE_OBJECT = i2s
+ifeq ($(KDIR),)
+KDIR=/home/d26lf/workspace/stb/linux_stm24_205_V2.1
+endif
+INSTALL_MOD_PATH=/home/d26lf/workspace/box
+
+export ARCH=sh
+export CROSS_COMPILE=sh4-linux-
+
+EXTRA_CFLAGS += -Wall -Werror
+
+PWD := $(shell pwd)
+
+obj-m := $(MODULE_OBJECT).o
+$(MODULE_OBJECT)-objs := i2c_spi.o
+
+ifneq ($(KERNELRELEASE),)
+
+else
+
+all default:
+	echo $(EXTRA_CFLAGS)
+	$(MAKE) -C $(KDIR) M=$(PWD) modules
+
+install:
+	@echo Copy $(MODULE_OBJECT) driver to $(INSTALL_MOD_PATH)
+	@cp $(MODULE_OBJECT).ko $(INSTALL_MOD_PATH)
+
+clean:
+	$(RM)  $(obj-m) $(MODULE_OBJECT).ko Module.symvers
+	$(MAKE) -C $(KDIR) M=$(PWD) clean
+endif

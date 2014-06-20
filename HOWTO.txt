@@ -1,0 +1,13 @@
+1、how to config kernel?
+	source make7111_config.sh
+	source make7167_config.sh
+
+2、how to make kernel?
+	source make7111.sh
+	source make7167.sh
+
+3、how to release kernel?
+	source release7111.sh
+	source release7167.sh
+	
+	output is in release dir

@@ -1,0 +1,1 @@
+obj-m		+= flash_rwmode_set.o

@@ -1,0 +1,17 @@
+export ARCH=sh
+export CROSS_COMPILE=sh4-linux-
+obj-m := flash_rwmode_set.o
+KDIR := ~/workspace/stb/linux_stm24_205_V2.1_7111
+PWD := $(shell pwd)
+ifneq (,$(findstring 2.6.3,$(KERNELVERSION)))
+EXTRA_CFLAGS += -I$(PWD)
+else
+CFLAGS += -I$(PWD)
+endif
+default:
+	$(MAKE) -C $(KDIR) M=$(PWD) modules
+
+clean:
+	rm -rf *.ko *.mod.c *.o Module.* modules.* .*.cmd .tmp_versions
+
+
